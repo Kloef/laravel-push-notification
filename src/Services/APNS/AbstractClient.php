@@ -38,7 +38,12 @@ class AbstractClient
 		/*
 		 * Socket content creation
 		 */
-		$ctx = stream_context_create();
+		$ctx = stream_context_create([
+			'http' => [
+            	'proxy' => env('PROXIMO_URL') . ':80',
+            ]
+        )]);
+
 		stream_context_set_option($ctx, 'ssl', 'local_cert', Config::get('pushnotification.ios.certificate'));
 		stream_context_set_option($ctx, 'ssl', 'passphrase', Config::get('pushnotification.ios.passPhrase'));
 		
